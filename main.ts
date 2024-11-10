@@ -11,14 +11,14 @@ if (!path) {
   Deno.exit(1);
 }
 
-let try_started = 0;
+let try_block_started = 0;
 let current_line = 0;
 const output = new WritableStream<string>({
   write(chunk) {
     current_line++;
 
-    if (!try_started && chunk.includes("try")) {
-      try_started = current_line;
+    if (!try_block_started && chunk.includes("try")) {
+      try_block_started = current_line;
     }
 
     // console.log(chunk);
