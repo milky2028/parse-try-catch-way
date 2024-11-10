@@ -12,13 +12,13 @@ if (!path) {
 }
 
 let try_started = 0;
-let lines_counted = 0;
+let current_line = 0;
 const output = new WritableStream<string>({
   write(chunk) {
-    lines_counted++;
+    current_line++;
 
     if (!try_started && chunk.includes("try")) {
-      try_started = lines_counted;
+      try_started = current_line;
     }
 
     // console.log(chunk);
@@ -32,7 +32,7 @@ try {
     .pipeThrough(new TextLineStream())
     .pipeTo(output);
 
-  console.log(`Total Lines: ${lines_counted}`);
+  console.log(`Total Lines: ${current_line}`);
 } catch {
   console.error("Invalid path.");
   Deno.exit(1);
