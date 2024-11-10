@@ -21,6 +21,10 @@ const output = new WritableStream<string>({
       try_block_started = current_line;
     }
 
+    if (try_block_started && chunk.includes("catch")) {
+      const block_length = try_block_started - current_line;
+    }
+
     // console.log(chunk);
   },
 });
