@@ -1,0 +1,39 @@
+import { parseArgs } from "jsr:@std/cli/parse-args";
+import { TextLineStream } from "jsr:@std/streams";
+
+const { path } = parseArgs(Deno.args, {
+  alias: { path: "p" },
+  string: ["path"],
+});
+
+if (!path) {
+  console.error("Path must be specified, use --path or -p.");
+  Deno.exit(1);
+}
+
+let try_started = 0;
+let lines_counted = 0;
+const output = new WritableStream<string>({
+  write(chunk) {
+    lines_counted++;
+
+    if (!try_started && chunk.includes("try")) {
+      try_started = lines_counted;
+    }
+
+    // console.log(chunk);
+  },
+});
+
+try {
+  const handle = await Deno.open(path);
+  await handle.readable
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new TextLineStream())
+    .pipeTo(output);
+
+  console.log(`Total Lines: ${lines_counted}`);
+} catch {
+  console.error("Invalid path.");
+  Deno.exit(1);
+}
