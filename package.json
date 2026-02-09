@@ -1,0 +1,20 @@
+{
+  "name": "parse-try-catch-wat",
+  "version": "1.0.0",
+  "main": "main.ts",
+  "type": "module",
+  "scripts": {
+    "parse": "vite-node ./src/main.ts /Users/tgross/Documents/GitHub/nested-loop-minimal-repro/nested-block-wasm-minimal-repro/dist/lib.wat"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@webassemblyjs/wast-parser": "^1.14.1",
+    "vite-node": "^2.1.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@webassemblyjs-wast-parser": "link:@types/@webassemblyjs-wast-parser"
+  }
+}
